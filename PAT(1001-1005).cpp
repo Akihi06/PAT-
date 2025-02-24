@@ -215,7 +215,7 @@
 
 
 //1005 继续(3n+1)猜想
-
+                                           //ans1 
 #include<bits/stdc++.h>
 using namespace std;
 int main()
@@ -274,9 +274,47 @@ int main()
  
 
 
-
-
-
+//思路：设置了３个数组，ａ是存放输入数，ｂ是标记被覆盖数，ｃ是存放未覆盖数。
+//对于每个输入数，先进行判断是否被标记（被覆盖的标记１），标记的就跳过，未标记的，对其进行3ｎ+１操作，同时标记过程数，
+//最后筛选ａ中未标记的数放入ｃ中，然后排序输出。
+#include<iostream>
+#include<algorithm>                                   //ans2 
+using namespace std;
+bool cmp(int a,int b){
+	return a>b;
+}
+int main(){
+	int n,k,a[1000],b[10000],c[1000];
+	cin>>n;
+	for(int i=0;i<n;++i){
+		cin>>k;
+		a[i]=k;
+		if(b[k]==0){
+			while(k!=1){
+				if(k%2==0){
+					k/=2;
+					b[k]=1;
+				}else{
+					k=(3*k+1)/2;
+					b[k]=1;
+				}
+			}
+		}
+	}
+	int j=0;
+	for(int i=0;i<n;++i){
+		if(b[a[i]]==0){
+			c[j]=a[i];
+			j++;
+		}
+	}
+	sort(c,c+j,cmp);
+	for(int i=0;i<j;i++){
+		if(i!=0)cout<<" ";
+		cout<<c[i];
+	}
+    return 0;
+}
 
 
 
