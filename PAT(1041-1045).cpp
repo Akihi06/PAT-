@@ -500,18 +500,58 @@
 
 
 
-#include<bits/stdc++.h>
+#include<bits/stdc++.h>                                                   //ans1
 using namespace std;
+//前缀和  记录下来每个位置之前的最大值、每个位置之后的最小值
+//如果该元素是主元，那么它应该比左边的最大值大，比右边的最小值小
+//注意找右边的最小值的时候要倒着找
+//5 4 3 2 1越来越小当然没问题 越往右值越小，不断更新 
+//1 2 3 4 5  这样如果从左往右找，“右边的”最小值 一直是1，但其实不是 
 int main()
 {
 	int n;
-	int a[100005];
+	cin>>n;
+	int a[100005],maxn[100005],minn[100005],ans[100005];
 	for(int i=0;i<n;i++)
 		cin>>a[i];
+//	int minn=1e9;
+//	int maxn=0;
 	
-
+	for(int i=0;i<n;i++)
+	{
+//		maxx[i]=max(a[i],a[i-1]);
+		maxn[i]=max(a[i],maxn[i-1]);
+	} 
+	for(int i=0;i<n+5;i++)minn[i]=2e9;
 	
-	
+	//注意要给minn赋一个较大的初值 
+	//还要注意这里的n+5，如果不赋值 默认是0，
+	//那么在找最小值时是与minn[i+1] 比较，最开始结果是0的话，最后最小值全是0 
+	for(int i=n-1;i>=0;i--)
+	{
+		minn[i]=min(a[i],minn[i+1]); 
+//		cout<<minn[i]<<endl;
+	}
+	int cnt=0;
+ 	for(int i=0;i<n;i++)
+	{
+	 	//if(a[i]>=maxn[i]&&a[i]<=minn[i])
+	 	if(a[i]==maxn[i]&&a[i]==minn[i])
+	 	{
+	 		ans[++cnt]=a[i];
+		 }
+	} 
+	cout<<cnt<<endl;
+	if(cnt!=0)
+	{
+		sort(ans+1,ans+cnt+1); 
+		for(int i=1;i<=cnt;i++)
+		{
+			if(i==1)cout<<ans[i];
+			else cout<<" "<<ans[i];
+		}
+	}
+	else cout<<endl;
 	
 	return 0; 
 }
@@ -522,7 +562,39 @@ int main()
 
 
 
-
+//#include <iostream>
+//#include <vector>
+//#include <algorithm>
+//using namespace std;
+//int main() {
+//	int N,cnt=0,max=0,flag=0;
+//	cin>>N;
+//	int a[N];
+//	vector <int > v;
+//	//vector容器 
+//	for(int i=0; i<N; i++) {
+//		scanf("%d",&a[i]);
+//		v.push_back(a[i]);
+//	}
+//	sort(v.begin(),v.end());
+//	for(int i=0; i<N; i++) {
+////		cout<<endl<<" max ="<<max<<endl; 
+//		if(a[i]==v[i] && a[i]>max)	cnt++;     //1 2 3 4 5
+////保证是当前右边最小值   是左边最大值	                                       //1 3 2 4 5 
+//		else v[i]=-1;   //标记不是主元的值 
+//		if(a[i]>max) max=a[i];
+//	}
+//	cout<<cnt<<endl;
+//	for(int i=0; i<N; i++) {
+//		if(v[i]>0) {
+//			if(flag==1) printf(" ");
+//			printf("%d",v[i]);
+//			flag=1;
+//		}
+//	}
+//	cout<<endl;
+//	return  0;
+//}
 
 
 
